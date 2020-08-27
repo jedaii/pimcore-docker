@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  web:
+    image: nginx:latest
+    ports:
+      - "8080:80"
+      - "443:443"
+    volumes:
+      - ./nginx/config:/etc/nginx/conf.d/
+      - ./www:/var/www
+      - ./nginx/logs:/var/log/nginx
+    links:
+      - php
+  php:
+    build: ./php
+    links:
+      - db
+    volumes:
+      - ./www:/var/www
+  db:
+    image: mariadb
+    restart: always
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: pimcore
+      MYSQL_DATABASE: pimcore
+      MYSQL_USER: pimcore
+      MYSQL_PASSWORD: pimcore

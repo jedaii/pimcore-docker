@@ -23,6 +23,10 @@ services:
     restart: always
     ports:
       - "3306:3306"
+    command: mysqld --innodb_file_format=Barracuda --innodb_large_prefix = 1 --innodb_file_per_table = 1
+    command: --init-file /data/application/init.sql
+    volumes:
+      - ./mysql/init/init.sql:/data/application/init.sql
     environment:
       MYSQL_ROOT_PASSWORD: pimcore
       MYSQL_DATABASE: pimcore
